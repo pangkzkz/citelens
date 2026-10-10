@@ -1,0 +1,318 @@
+/*
+ * citelens.css
+ * Import once in your app: import "citelens/citelens.css"
+ * Theme with the --cl-* custom properties below.
+ */
+
+.cl {
+  --cl-bg: #f2f1ee;
+  --cl-surface: #ffffff;
+  --cl-text: #1f1e1c;
+  --cl-muted: #75716b;
+  --cl-border: #e2dfd9;
+  --cl-accent: #3a5bd9;
+  --cl-hl: rgba(255, 196, 0, 0.42);
+  --cl-hl-active: rgba(255, 140, 0, 0.5);
+  --cl-hl-ring: #e07a00;
+  --cl-warn: #b4520f;
+  --cl-shadow: 0 1px 3px rgba(20, 18, 15, 0.12), 0 4px 14px rgba(20, 18, 15, 0.06);
+  --cl-font:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 320px;
+  overflow: hidden;
+  background: var(--cl-bg);
+  color: var(--cl-text);
+  border: 1px solid var(--cl-border);
+  border-radius: 10px;
+  font-family: var(--cl-font);
+}
+
+@media (prefers-color-scheme: dark) {
+  .cl:not([data-theme="light"]) {
+    --cl-bg: #161514;
+    --cl-surface: #1f1e1c;
+    --cl-text: #ebe8e3;
+    --cl-muted: #a19c94;
+    --cl-border: #35322f;
+    --cl-accent: #8aa2ff;
+    --cl-warn: #f0a868;
+    --cl-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+}
+.cl[data-theme="dark"] {
+  --cl-bg: #161514;
+  --cl-surface: #1f1e1c;
+  --cl-text: #ebe8e3;
+  --cl-muted: #a19c94;
+  --cl-border: #35322f;
+  --cl-accent: #8aa2ff;
+  --cl-warn: #f0a868;
+  --cl-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* TOOLBAR */
+
+.cl-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-height: 42px;
+  padding: 4px 10px;
+  background: var(--cl-surface);
+  border-bottom: 1px solid var(--cl-border);
+  font-size: 13px;
+}
+.cl-title {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cl-muted {
+  color: var(--cl-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.cl-zoom {
+  min-width: 44px;
+  text-align: center;
+  color: var(--cl-muted);
+  font-variant-numeric: tabular-nums;
+}
+.cl-sep {
+  width: 1px;
+  height: 18px;
+  margin: 0 6px;
+  background: var(--cl-border);
+}
+.cl-btn {
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+.cl-btn.is-text {
+  font-size: 13px;
+}
+.cl-btn:hover {
+  background: var(--cl-bg);
+}
+.cl-btn.is-active {
+  color: var(--cl-accent);
+}
+.cl-cite-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1px solid var(--cl-border);
+}
+.cl-warn {
+  margin-left: 8px;
+  color: var(--cl-warn);
+  font-size: 12px;
+}
+.cl-toolbar-extra {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 4px;
+}
+
+/* PAGES */
+
+.cl-scroll {
+  position: relative;
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+}
+.cl-page {
+  position: relative;
+  margin: 0 auto 16px;
+  background: #fff;
+  box-shadow: var(--cl-shadow);
+}
+.cl-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.cl-page-loading {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #f6f5f2 0%, #ecebe7 50%, #f6f5f2 100%);
+  background-size: 200% 100%;
+  animation: cl-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes cl-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.cl-hl-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.cl-hl {
+  position: absolute;
+  margin: -1px -2px;
+  padding: 1px 2px;
+  border-radius: 2px;
+  background: var(--cl-hl);
+  mix-blend-mode: multiply;
+  transition: background 0.2s;
+}
+.cl-hl.is-active {
+  background: var(--cl-hl-active, var(--cl-hl));
+  box-shadow: 0 0 0 1.5px var(--cl-hl-ring);
+}
+.cl-hl.is-flash,
+.cl-mark.is-flash {
+  animation: cl-flash 0.5s ease-in-out 3;
+}
+@keyframes cl-flash {
+  50% {
+    box-shadow: 0 0 0 4px var(--cl-hl-ring);
+  }
+}
+
+.cl-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 48px 16px;
+  color: var(--cl-muted);
+  font-size: 14px;
+  text-align: center;
+}
+.cl-state.is-error {
+  color: var(--cl-warn);
+}
+.cl-state small {
+  max-width: 480px;
+  color: var(--cl-muted);
+  font-size: 12px;
+  word-break: break-all;
+}
+
+/* PDF.JS TEXT LAYER — adapted from pdf.js web/pdf_viewer.css (Apache-2.0) */
+
+.cl .textLayer {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  text-align: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  z-index: 2;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+.cl .textLayer :is(span, br) {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+}
+.cl .textLayer > :not(.markedContent),
+.cl .textLayer .markedContent span:not(.markedContent) {
+  z-index: 1;
+  --font-height: 0;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  --scale-x: 1;
+  --rotate: 0deg;
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+.cl .textLayer .markedContent {
+  display: contents;
+}
+.cl .textLayer ::selection {
+  background: rgba(58, 91, 217, 0.28);
+}
+.cl .textLayer br::selection {
+  background: transparent;
+}
+.cl .textLayer .endOfContent {
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  user-select: none;
+}
+.cl .textLayer.selecting .endOfContent {
+  top: 0;
+}
+
+/* TEXT DOCUMENTS */
+
+.cl-textdoc {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 36px;
+  background: var(--cl-surface);
+  box-shadow: var(--cl-shadow);
+  font-size: 15px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .cl-textdoc {
+    padding: 20px 16px;
+  }
+  .cl-scroll {
+    padding: 8px;
+  }
+}
+.cl-mark {
+  color: inherit;
+  background: var(--cl-hl);
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px transparent;
+  cursor: default;
+}
+.cl-mark[title] {
+  cursor: pointer;
+}
+.cl-mark.is-active {
+  background: var(--cl-hl-active, var(--cl-hl));
+  box-shadow: 0 0 0 1.5px var(--cl-hl-ring);
+}
+@media (prefers-color-scheme: dark) {
+  .cl:not([data-theme="light"]) .cl-mark {
+    background: rgba(255, 196, 0, 0.32);
+  }
+}
+.cl[data-theme="dark"] .cl-mark {
+  background: rgba(255, 196, 0, 0.32);
+}

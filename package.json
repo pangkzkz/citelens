@@ -1,0 +1,95 @@
+{
+  "name": "citelens",
+  "version": "0.2.0",
+  "description": "A React PDF viewer that finds the passages your LLM quoted and highlights them — fuzzy matching that survives broken spacing, hyphenation and paraphrase-ish quotes.",
+  "keywords": [
+    "pdf",
+    "pdfjs",
+    "react",
+    "citations",
+    "highlight",
+    "rag",
+    "llm",
+    "grounding"
+  ],
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/CiteViewer.cjs",
+  "module": "./dist/CiteViewer.js",
+  "types": "./dist/CiteViewer.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/CiteViewer.js",
+      "require": "./dist/CiteViewer.cjs"
+    },
+    "./fuzzy": {
+      "import": "./dist/fuzzy.js",
+      "require": "./dist/fuzzy.cjs"
+    },
+    "./citelens.css": "./dist/citelens.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "tsup && cp src/citelens.css dist/",
+    "typecheck": "tsc --noEmit --strict --jsx react-jsx --skipLibCheck --moduleResolution bundler --module esnext --target es2022 --lib es2022,dom,dom.iterable src/CiteViewer.tsx",
+    "format": "prettier --write src"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": false,
+    "trailingComma": "all",
+    "printWidth": 100
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "dependencies": {
+    "pdfjs-dist": "^6.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "prettier": "^3.6.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0"
+  },
+  "tsup": {
+    "entry": [
+      "src/CiteViewer.tsx",
+      "src/fuzzy.ts"
+    ],
+    "format": [
+      "esm",
+      "cjs"
+    ],
+    "clean": true,
+    "external": [
+      "react",
+      "react-dom",
+      "pdfjs-dist"
+    ],
+    "dts": {
+      "compilerOptions": {
+        "jsx": "react-jsx",
+        "moduleResolution": "bundler",
+        "module": "esnext",
+        "target": "es2022",
+        "strict": true,
+        "skipLibCheck": true,
+        "lib": [
+          "es2022",
+          "dom",
+          "dom.iterable"
+        ]
+      }
+    }
+  }
+}
